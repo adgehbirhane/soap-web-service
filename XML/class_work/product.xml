@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="product.xsd">
+	<product>
+		<category id="1" />
+		<name>
+			HP
+		</name>
+		<brand>
+			HP
+		</brand>
+		<model_name>
+			hp laptop
+		</model_name>
+		<screen_size>
+			15.6 inches
+		</screen_size>
+		<color>
+			Silver
+		</color>
+		<CPU_Model>
+			Core 9
+		</CPU_Model>
+		<price>
+			50000
+			<!-- category, product, customer, and order using .dtd and .xsd -->
+		</price>
+	</product>
+	<product>
+		<category id="2" />
+		<name>
+			Lenovo
+		</name>
+		<brand>
+			Lenovo
+		</brand>
+		<model_name>
+			Lenovo laptop
+		</model_name>
+		<screen_size>
+			15.6 inches
+		</screen_size>
+		<color>
+			Silver
+		</color>
+		<CPU_Model>
+			Core 9
+		</CPU_Model>
+		<price>
+			50000
+		</price>
+	</product>
+</products>

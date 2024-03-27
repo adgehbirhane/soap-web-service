@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!-- <!DOCTYPE categories SYSTEM "category.dtd"> -->
+<categories xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="category.xsd">
+    <category>
+        <id>1</id>
+        <name>Electronics</name>
+        <description>Products related to electronics</description>
+    </category>
+    <category>
+        <id>2</id>
+        <name>Clothing</name>
+        <description>Apparel and clothing items</description>
+    </category>
+    <category>
+        <id>3</id>
+        <name>Books</name>
+        <description>Books on various topics</description>
+    </category>
+    <category>
+        <id>4</id>
+        <name>Home Appliances</name>
+        <description>Appliances for home use</description>
+    </category> 
+</categories>

@@ -1,0 +1,4 @@
+<!ELEMENT category (name+)>
+<!ELEMENT name (#PCDATA)>
+<!ATTLIST name
+          id CDATA #REQUIRED>

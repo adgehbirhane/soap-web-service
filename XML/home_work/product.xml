@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE products SYSTEM "product.dtd"> -->
+<products xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="product.xsd">
+    <product>
+        <id>1</id>
+        <name>Laptop</name>
+        <description>A high-performance laptop</description>
+        <category_id>1</category_id>
+        <price>1000</price>
+    </product>
+    <product>
+        <id>2</id>
+        <name>T-shirt</name>
+        <description>A comfortable cotton t-shirt</description>
+        <category_id>2</category_id>
+        <price>20</price>
+    </product>
+    <product>
+        <id>3</id>
+        <name>Smartphone</name>
+        <description>An advanced smartphone with latest features</description>
+        <category_id>1</category_id>
+        <price>800</price>
+    </product>
+    <product>
+        <id>4</id>
+        <name>Dress Shirt</name>
+        <description>A formal dress shirt for men</description>
+        <category_id>2</category_id>
+        <price>50</price>
+    </product>
+    <product>
+        <id>5</id>
+        <name>Tablet</name>
+        <description>A compact and portable tablet device</description>
+        <category_id>1</category_id>
+        <price>300</price>
+    </product> 
+</products> 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <!DOCTYPE customers SYSTEM "customer.dtd"> -->
+<customers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="customer.xsd">
+    <customer>
+        <id>1</id>
+        <name>John Doe</name>
+        <email>john@example.com</email>
+        <phone>123-456-7890</phone>
+    </customer>
+    <customer>
+        <id>2</id>
+        <name>Jane Smith</name>
+        <email>jane@example.com</email>
+        <phone>987-654-3210</phone>
+    </customer>
+    <customer>
+        <id>3</id>
+        <name>Michael Johnson</name>
+        <email>michael@example.com</email>
+        <phone>555-555-5555</phone>
+    </customer>
+    <customer>
+        <id>4</id>
+        <name>Alice Brown</name>
+        <email>alice@example.com</email>
+        <phone>444-444-4444</phone>
+    </customer> 
+</customers>

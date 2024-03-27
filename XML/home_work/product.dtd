@@ -1,0 +1,10 @@
+<!ELEMENT products (product+)>
+<!ELEMENT product (id, name, description, category_id, price)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT category_id (#PCDATA)>
+<!ELEMENT price (#PCDATA)>
+<!ATTLIST products 
+     xmlns:xsi CDATA #IMPLIED
+     xsi:noNamespaceSchemaLocation CDATA #IMPLIED>

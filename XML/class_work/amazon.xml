@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE category SYSTEM "category.dtd">
+<category>
+    <name id="1">
+        Electronics
+    </name>
+    <name id="2">
+        Books
+    </name>
+</category>

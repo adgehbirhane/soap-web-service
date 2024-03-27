@@ -1,0 +1,11 @@
+<!ELEMENT orders (order+)>
+<!ELEMENT order (id, customer_id, product_id, quantity, order_date, status)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT customer_id (#PCDATA)>
+<!ELEMENT product_id (#PCDATA)>
+<!ELEMENT quantity (#PCDATA)>
+<!ELEMENT order_date (#PCDATA)>
+<!ELEMENT status (#PCDATA)>
+<!ATTLIST orders 
+     xmlns:xsi CDATA #IMPLIED
+     xsi:noNamespaceSchemaLocation CDATA #IMPLIED>

@@ -1,0 +1,9 @@
+<!ELEMENT customers (customer+)>
+<!ELEMENT customer (id, name, email, phone)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+<!ELEMENT phone (#PCDATA)>
+<!ATTLIST customers 
+     xmlns:xsi CDATA #IMPLIED
+     xsi:noNamespaceSchemaLocation CDATA #IMPLIED>

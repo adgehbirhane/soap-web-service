@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="products">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="product" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="category">
+								<xs:complexType>
+									<xs:attribute name="id" type="xs:integer" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="name" type="xs:string" />
+							<xs:element name="brand" type="xs:string" />
+							<xs:element name="model_name" type="xs:string" />
+							<xs:element name="screen_size" type="xs:string" />
+							<xs:element name="color" type="xs:string" />
+							<xs:element name="CPU_Model" type="xs:string" />
+							<xs:element name="price" type="xs:integer" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

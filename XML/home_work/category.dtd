@@ -1,0 +1,8 @@
+<!ELEMENT categories (category+)>
+<!ELEMENT category (id, name, description)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+<!ATTLIST categories
+    xmlns:xsi CDATA #IMPLIED
+    xsi:noNamespaceSchemaLocation CDATA #IMPLIED>
