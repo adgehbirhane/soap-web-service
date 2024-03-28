@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          Int    @id @default(autoincrement()) 
+  name        String
+  description String
+  Product     Product[]
+}
+
+model Customer {
+  id    Int  @id @default(autoincrement())  
+  name  String
+  email String
+  phone String
+  Order Order[]
+}
+
+model Order {
+  id          Int   @id @default(autoincrement()) 
+  customer_id Int
+  product_id  Int
+  quantity    Int
+  order_date  DateTime
+  status      String
+  customer    Customer @relation(fields: [customer_id], references: [id])
+  product     Product  @relation(fields: [product_id], references: [id])
+}
+
+model Product {
+  id          Int   @id @default(autoincrement())  
+  name        String
+  description String
+  category_id Int
+  price       Float
+  category    Category @relation(fields: [category_id], references: [id])
+  Order       Order[]
+}
+
+
+// CREATE TABLE "Category" (
+//     id SERIAL PRIMARY KEY,
+//     name VARCHAR(255),
+//     description TEXT
+// );
+
+// CREATE TABLE "Customer" (
+//     id SERIAL PRIMARY KEY,
+//     name VARCHAR(255),
+//     email VARCHAR(255),
+//     phone VARCHAR(255)
+// );
+
+// CREATE TABLE "Order" (
+//     id SERIAL PRIMARY KEY,
+//     customer_id INT REFERENCES "Customer"(id),
+//     product_id INT REFERENCES "Product"(id),
+//     quantity INT,
+//     order_date TIMESTAMP,
+//     status VARCHAR(255)
+// );
+
+// CREATE TABLE "Product" (
+//     id SERIAL PRIMARY KEY,
+//     name VARCHAR(255),
+//     description TEXT,
+//     category_id INT REFERENCES "Category"(id),
+//     price FLOAT
+// );
