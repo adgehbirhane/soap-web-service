@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package repository;
-  
+
 import models.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,14 +22,25 @@ public class ProductRepo {
     }
 
     // Method to create a new product
-    public void create(Product product) throws SQLException {
+    public int create(Product product) throws SQLException {
         String query = "INSERT INTO \"public\".\"Product\" (name, description, category_id, price) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, product.getName());
             statement.setString(2, product.getDescription());
             statement.setInt(3, product.getCategory_id());
             statement.setDouble(4, product.getPrice());
-            statement.executeUpdate();
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating product failed, no rows affected.");
+            }
+    
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                  return generatedKeys.getInt(1);
+                } else {
+                  return 0;
+                }
+            }
         }
     }
 
@@ -72,7 +83,7 @@ public class ProductRepo {
     }
 
     // Method to update a product by ID
-    public void updateById(Product product) throws SQLException {
+    public boolean updateById(Product product) throws SQLException {
         String query = "UPDATE \"public\".\"Product\" SET name = ?, description = ?, category_id = ?, price = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, product.getName());
@@ -80,7 +91,8 @@ public class ProductRepo {
             statement.setInt(3, product.getCategory_id());
             statement.setDouble(4, product.getPrice());
             statement.setInt(5, product.getId());
-            statement.executeUpdate();
+            int affectedRows = statement.executeUpdate();
+            return affectedRows > 0;
         }
     }
 
@@ -93,4 +105,3 @@ public class ProductRepo {
         }
     }
 }
-

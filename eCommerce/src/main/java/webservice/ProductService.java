@@ -10,12 +10,12 @@ import models.*;
 import DBConnection.PGConnection;
 import java.util.List;
 import repository.*;
- 
+
 @WebService(serviceName = "product")
 public class ProductService {
 
     @WebMethod(operationName = "createOne")
-    public String createProduct(@WebParam(name = "name") String name,
+    public Product createProduct(@WebParam(name = "name") String name,
             @WebParam(name = "description") String description,
             @WebParam(name = "category_id") int category_id,
             @WebParam(name = "price") double price) {
@@ -27,11 +27,15 @@ public class ProductService {
             product.setDescription(description);
             product.setCategory_id(category_id);
             product.setPrice(price);
-            productRepo.create(product);
-            return "Product created successfully!";
+            int newProductId = productRepo.create(product);
+            if (newProductId == 0) {
+                throw new SQLException("Creating product failed");
+            } else {
+                return productRepo.findById(newProductId);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error creating product: " + e.getMessage();
+            return null;
         }
     }
 
@@ -74,8 +78,14 @@ public class ProductService {
             product.setDescription(description);
             product.setCategory_id(category_id);
             product.setPrice(price);
-            productRepo.updateById(product);
-            return productRepo.findById(id);
+
+            boolean success = productRepo.updateById(product);
+
+            if (success) {
+                return productRepo.findById(id);
+            } else {
+                throw new SQLException("Updating product failed");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
