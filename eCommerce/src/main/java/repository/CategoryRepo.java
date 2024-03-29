@@ -4,11 +4,6 @@
  */
 package repository;
 
-/**
- *
- * @author Student
- */ 
-
 import models.Category;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 public class CategoryRepo {
 
     private Connection connection;

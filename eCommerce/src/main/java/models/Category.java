@@ -4,10 +4,6 @@
  */
 package models;
 
-/**
- *
- * @author Student
- */
 public class Category {
     private int id;
     private String name;

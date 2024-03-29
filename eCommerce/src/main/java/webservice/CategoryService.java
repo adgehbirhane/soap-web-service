@@ -7,15 +7,10 @@ package webservice;
 import jakarta.jws.*;
 import java.sql.*;
 import models.*;
-import DBConnection.MyDBConnection;
+import DBConnection.PGConnection;
 import java.util.List; 
 import repository.*;
-
-/**
- *
- * @author Student
- */  
-
+ 
 @WebService(serviceName = "category")
 public class CategoryService {
 
@@ -23,7 +18,7 @@ public class CategoryService {
     public String createCategory(@WebParam(name = "name") String name,
             @WebParam(name = "description") String description) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             CategoryRepo categoryRepo = new CategoryRepo(connection);
             Category category = new Category();
             category.setName(name);
@@ -39,7 +34,7 @@ public class CategoryService {
     @WebMethod(operationName = "findAll")
     public List<Category> findAll() {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             CategoryRepo categoryRepo = new CategoryRepo(connection);
             return categoryRepo.findAll();
         } catch (SQLException e) {
@@ -51,7 +46,7 @@ public class CategoryService {
     @WebMethod(operationName = "findById")
     public Category findById(@WebParam(name = "id") int id) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             CategoryRepo categoryRepo = new CategoryRepo(connection);
             return categoryRepo.findById(id);
         } catch (SQLException e) {
@@ -64,7 +59,7 @@ public class CategoryService {
     public Category updateCategory(@WebParam(name = "id") int id, @WebParam(name = "name") String name,
             @WebParam(name = "description") String description) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             CategoryRepo categoryRepo = new CategoryRepo(connection);
             Category category = new Category();
             category.setId(id);
@@ -81,7 +76,7 @@ public class CategoryService {
     @WebMethod(operationName = "deleteById")
     public String deleteById(@WebParam(name = "id") int id) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             CategoryRepo categoryRepo = new CategoryRepo(connection);
             categoryRepo.deleteById(id);
             return "Category deleted successfully!";

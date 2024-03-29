@@ -3,7 +3,7 @@ package webservice;
 import jakarta.jws.*;
 import java.sql.*;
 import models.*;
-import DBConnection.MyDBConnection;
+import DBConnection.PGConnection;
 import java.util.List; 
 import repository.*;
 
@@ -15,7 +15,7 @@ public class CustomerService {
             @WebParam(name = "email") String email,
             @WebParam(name = "phone") String phone) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             CustomerRepo customerRepo = new CustomerRepo(connection);
             Customer customer = new Customer();
             customer.setName(name);
@@ -32,7 +32,7 @@ public class CustomerService {
     @WebMethod(operationName = "findAll")
     public List<Customer> findAll() {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             CustomerRepo customerRepo = new CustomerRepo(connection);
             return customerRepo.findAll();
         } catch (SQLException e) {
@@ -44,7 +44,7 @@ public class CustomerService {
     @WebMethod(operationName = "findById")
     public Customer finById(@WebParam(name = "id") int id) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             CustomerRepo customerRepo = new CustomerRepo(connection);
             return customerRepo.findById(id);
         } catch (SQLException e) {
@@ -58,7 +58,7 @@ public class CustomerService {
             @WebParam(name = "email") String email,
             @WebParam(name = "phone") String phone) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             CustomerRepo customerRepo = new CustomerRepo(connection);
             Customer customer = new Customer();
             customer.setId(id);
@@ -76,7 +76,7 @@ public class CustomerService {
     @WebMethod(operationName = "deleteById")
     public String deleteById(@WebParam(name = "id") int id) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             CustomerRepo customerRepo = new CustomerRepo(connection);
             customerRepo.deleteById(id);
             return "Customer deleted successfully!";

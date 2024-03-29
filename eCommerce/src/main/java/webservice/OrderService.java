@@ -7,16 +7,11 @@ package webservice;
 import jakarta.jws.*;
 import java.sql.*;
 import models.*;
-import DBConnection.MyDBConnection;
+import DBConnection.PGConnection;
 import java.util.List;
 import repository.*;
-
-/**
- *
- * @author Student
- */ 
-
-@WebService(serviceName = "OrderService")
+ 
+@WebService(serviceName = "order")
 public class OrderService {
 
     @WebMethod(operationName = "createOne")
@@ -26,7 +21,7 @@ public class OrderService {
             @WebParam(name = "order_date") Timestamp order_date,
             @WebParam(name = "status") String status) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             OrderRepo orderRepo = new OrderRepo(connection);
             Order order = new Order();
             order.setCustomer_id(customer_id);
@@ -45,7 +40,7 @@ public class OrderService {
     @WebMethod(operationName = "findAll")
     public List<Order> findAll() {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             OrderRepo orderRepo = new OrderRepo(connection);
             return orderRepo.findAll();
         } catch (SQLException e) {
@@ -57,7 +52,7 @@ public class OrderService {
     @WebMethod(operationName = "findById")
     public Order findById(@WebParam(name = "id") int id) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             OrderRepo orderRepo = new OrderRepo(connection);
             return orderRepo.findById(id);
         } catch (SQLException e) {
@@ -74,7 +69,7 @@ public class OrderService {
             @WebParam(name = "order_date") Timestamp order_date,
             @WebParam(name = "status") String status) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             OrderRepo orderRepo = new OrderRepo(connection);
             Order order = new Order();
             order.setId(id);
@@ -94,7 +89,7 @@ public class OrderService {
     @WebMethod(operationName = "deleteById")
     public String deleteById(@WebParam(name = "id") int id) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             OrderRepo orderRepo = new OrderRepo(connection);
             orderRepo.deleteById(id);
             return "Order deleted successfully!";

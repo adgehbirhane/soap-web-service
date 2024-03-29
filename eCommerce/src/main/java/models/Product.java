@@ -3,11 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package models;
-
-/**
- *
- * @author Student
- */
+ 
 public class Product {
     private int id;
     private String name;

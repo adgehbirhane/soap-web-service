@@ -3,12 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package repository;
-
-/**
- *
- * @author Student
- */ 
-
+  
 import models.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

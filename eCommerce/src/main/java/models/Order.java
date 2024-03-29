@@ -4,11 +4,7 @@
  */
 package models;
 import java.sql.Timestamp;
-
-/**
- *
- * @author Student
- */
+ 
 public class Order {
     private int id;
     private int customer_id;

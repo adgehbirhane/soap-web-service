@@ -7,16 +7,11 @@ package webservice;
 import jakarta.jws.*;
 import java.sql.*;
 import models.*;
-import DBConnection.MyDBConnection;
+import DBConnection.PGConnection;
 import java.util.List;
 import repository.*;
-
-/**
- *
- * @author Student
- */ 
-
-@WebService(serviceName = "ProductService")
+ 
+@WebService(serviceName = "product")
 public class ProductService {
 
     @WebMethod(operationName = "createOne")
@@ -25,7 +20,7 @@ public class ProductService {
             @WebParam(name = "category_id") int category_id,
             @WebParam(name = "price") double price) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             ProductRepo productRepo = new ProductRepo(connection);
             Product product = new Product();
             product.setName(name);
@@ -43,7 +38,7 @@ public class ProductService {
     @WebMethod(operationName = "findAll")
     public List<Product> findAll() {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             ProductRepo productRepo = new ProductRepo(connection);
             return productRepo.findAll();
         } catch (SQLException e) {
@@ -55,7 +50,7 @@ public class ProductService {
     @WebMethod(operationName = "findById")
     public Product findById(@WebParam(name = "id") int id) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             ProductRepo productRepo = new ProductRepo(connection);
             return productRepo.findById(id);
         } catch (SQLException e) {
@@ -71,7 +66,7 @@ public class ProductService {
             @WebParam(name = "category_id") int category_id,
             @WebParam(name = "price") double price) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             ProductRepo productRepo = new ProductRepo(connection);
             Product product = new Product();
             product.setId(id);
@@ -90,7 +85,7 @@ public class ProductService {
     @WebMethod(operationName = "deleteById")
     public String deleteById(@WebParam(name = "id") int id) {
         try {
-            Connection connection = MyDBConnection.getConnection();
+            Connection connection = PGConnection.getConnection();
             ProductRepo productRepo = new ProductRepo(connection);
             productRepo.deleteById(id);
             return "Product deleted successfully!";
