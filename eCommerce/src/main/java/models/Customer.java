@@ -10,12 +10,12 @@ package models;
  */
 public class Customer { 
     
-    private String id;
+    private int id;
     private String name;
     private String email;
     private String phone;
     
-    public String getId(){
+    public int getId(){
         return this.id;
     }
     
@@ -31,7 +31,7 @@ public class Customer {
         return this.phone;
     } 
     
-    public void setId(String id){
+    public void setId(int id){
         this.id = id;
     }
     
