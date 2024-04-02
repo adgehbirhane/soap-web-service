@@ -4,8 +4,10 @@ import jakarta.jws.*;
 import java.sql.*;
 import models.*;
 import DBConnection.PGConnection;
-import java.util.List; 
+import jakarta.xml.ws.WebServiceException;
+import java.util.List;
 import repository.*;
+import validator.CustomerValidator;
 
 @WebService(serviceName = "customer")
 public class CustomerService {
@@ -16,16 +18,21 @@ public class CustomerService {
             @WebParam(name = "phone") String phone) {
         try {
             Connection connection = PGConnection.getConnection();
-            CustomerRepo customerRepo = new CustomerRepo(connection);
-            Customer customer = new Customer();
-            customer.setName(name);
-            customer.setEmail(email);
-            customer.setPhone(phone);
-            customerRepo.create(customer);
-            return "Customer created successfully!";
+            CustomerValidator custValidator = new CustomerValidator(connection);
+
+            if (custValidator.isValidCustomerInfo(name, email, phone)) {
+                CustomerRepo customerRepo = new CustomerRepo(connection);
+                Customer customer = new Customer();
+                customer.setName(name);
+                customer.setEmail(email);
+                customer.setPhone(phone);
+                customerRepo.create(customer);
+                return "Customer created successfully!";
+            } else {
+                throw new WebServiceException("An error occurred while processing the request");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return "Error creating customer: " + e.getMessage();
+            throw new WebServiceException("An error occurred while processing the request");
         }
     }
 
@@ -34,9 +41,8 @@ public class CustomerService {
         try {
             Connection connection = PGConnection.getConnection();
             CustomerRepo customerRepo = new CustomerRepo(connection);
-            return customerRepo.findAll(); 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return customerRepo.findAll();
+        } catch (SQLException e) { 
             return null;
         }
     }
@@ -45,11 +51,15 @@ public class CustomerService {
     public Customer finById(@WebParam(name = "id") int id) {
         try {
             Connection connection = PGConnection.getConnection();
-            CustomerRepo customerRepo = new CustomerRepo(connection);
-            return customerRepo.findById(id);
+            CustomerValidator custValidator = new CustomerValidator(connection);
+            if (custValidator.isValidId(id)) {
+                CustomerRepo customerRepo = new CustomerRepo(connection);
+                return customerRepo.findById(id);
+            } else {
+                throw new WebServiceException("An error occurred while processing the request");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException("An error occurred while processing the request");
         }
     }
 
@@ -59,17 +69,21 @@ public class CustomerService {
             @WebParam(name = "phone") String phone) {
         try {
             Connection connection = PGConnection.getConnection();
-            CustomerRepo customerRepo = new CustomerRepo(connection);
-            Customer customer = new Customer();
-            customer.setId(id);
-            customer.setName(name);
-            customer.setEmail(email);
-            customer.setPhone(phone);
-            customerRepo.updateById(customer);
-            return customerRepo.findById(id);
+            CustomerValidator custValidator = new CustomerValidator(connection);
+            if (custValidator.isValidId(id) && custValidator.isValidCustomerInfo(name, email, phone)) {
+                CustomerRepo customerRepo = new CustomerRepo(connection);
+                Customer customer = new Customer();
+                customer.setId(id);
+                customer.setName(name);
+                customer.setEmail(email);
+                customer.setPhone(phone);
+                customerRepo.updateById(customer);
+                return customerRepo.findById(id);
+            } else {
+                throw new WebServiceException("An error occurred while processing the request");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException("An error occurred while processing the request");
         }
     }
 
@@ -77,12 +91,17 @@ public class CustomerService {
     public String deleteById(@WebParam(name = "id") int id) {
         try {
             Connection connection = PGConnection.getConnection();
-            CustomerRepo customerRepo = new CustomerRepo(connection);
-            customerRepo.deleteById(id);
-            return "Customer deleted successfully!";
+            CustomerValidator custValidator = new CustomerValidator(connection);
+            if (custValidator.isValidId(id)) {
+                CustomerRepo customerRepo = new CustomerRepo(connection);
+                customerRepo.deleteById(id);
+                return "Customer deleted successfully!";
+            } else {
+                throw new WebServiceException("An error occurred while processing the request");
+            }
+
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException("An error occurred while processing the request");
         }
     }
 }
