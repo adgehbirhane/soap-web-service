@@ -8,9 +8,11 @@ import jakarta.jws.*;
 import java.sql.*;
 import models.*;
 import DBConnection.PGConnection;
-import java.util.List; 
+import java.util.List;
 import repository.*;
- 
+import jakarta.xml.ws.WebServiceException;
+import validator.CategoryValidator;
+
 @WebService(serviceName = "category")
 public class CategoryService {
 
@@ -19,15 +21,20 @@ public class CategoryService {
             @WebParam(name = "description") String description) {
         try {
             Connection connection = PGConnection.getConnection();
-            CategoryRepo categoryRepo = new CategoryRepo(connection);
-            Category category = new Category();
-            category.setName(name);
-            category.setDescription(description);
-            categoryRepo.create(category);
-            return "Category created successfully!";
+            CategoryValidator catValidator = new CategoryValidator(connection);
+
+            if (catValidator.isValidCategory(name, description)) {
+                CategoryRepo categoryRepo = new CategoryRepo(connection);
+                Category category = new Category();
+                category.setName(name);
+                category.setDescription(description);
+                categoryRepo.create(category);
+                return "Category created successfully!";
+            } else {
+                throw new WebServiceException("An error occurred while processing the request");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return "Error creating category: " + e.getMessage();
+            throw new WebServiceException("An error occurred while processing the request", e);
         }
     }
 
@@ -38,8 +45,7 @@ public class CategoryService {
             CategoryRepo categoryRepo = new CategoryRepo(connection);
             return categoryRepo.findAll();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException("An error occurred while processing the request", e);
         }
     }
 
@@ -47,11 +53,15 @@ public class CategoryService {
     public Category findById(@WebParam(name = "id") int id) {
         try {
             Connection connection = PGConnection.getConnection();
-            CategoryRepo categoryRepo = new CategoryRepo(connection);
-            return categoryRepo.findById(id);
+            CategoryValidator catValidator = new CategoryValidator(connection);
+            if (catValidator.isValidId(id)) {
+                CategoryRepo categoryRepo = new CategoryRepo(connection);
+                return categoryRepo.findById(id);
+            } else {
+                throw new WebServiceException("The provided id is not found");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException("An error occurred while processing the request", e);
         }
     }
 
@@ -60,16 +70,20 @@ public class CategoryService {
             @WebParam(name = "description") String description) {
         try {
             Connection connection = PGConnection.getConnection();
-            CategoryRepo categoryRepo = new CategoryRepo(connection);
-            Category category = new Category();
-            category.setId(id);
-            category.setName(name);
-            category.setDescription(description);
-            categoryRepo.updateById(category);
-            return categoryRepo.findById(id);
+            CategoryValidator catValidator = new CategoryValidator(connection);
+            if (catValidator.isValidId(id) && catValidator.isValidCategory(name, description)) {
+                CategoryRepo categoryRepo = new CategoryRepo(connection);
+                Category category = new Category();
+                category.setId(id);
+                category.setName(name);
+                category.setDescription(description);
+                categoryRepo.updateById(category);
+                return categoryRepo.findById(id);
+            } else {
+                throw new WebServiceException("An error occurred while processing the request");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException("An error occurred while processing the request", e);
         }
     }
 
@@ -77,12 +91,17 @@ public class CategoryService {
     public String deleteById(@WebParam(name = "id") int id) {
         try {
             Connection connection = PGConnection.getConnection();
-            CategoryRepo categoryRepo = new CategoryRepo(connection);
-            categoryRepo.deleteById(id);
-            return "Category deleted successfully!";
+            CategoryValidator catValidator = new CategoryValidator(connection);
+            if (catValidator.isValidId(id)) {
+                CategoryRepo categoryRepo = new CategoryRepo(connection);
+                categoryRepo.deleteById(id);
+                return "Category deleted successfully!";
+            } else {
+                throw new WebServiceException("An error occurred while processing the request");
+            }
+
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException("An error occurred while processing the request", e);
         }
     }
 }

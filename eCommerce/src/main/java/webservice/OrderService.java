@@ -8,6 +8,7 @@ import jakarta.jws.*;
 import java.sql.*;
 import models.*;
 import DBConnection.PGConnection;
+import jakarta.xml.ws.WebServiceException;
 import java.util.List;
 import repository.*;
  
@@ -33,7 +34,9 @@ public class OrderService {
             return "Order created successfully!";
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Error creating order: " + e.getMessage();
+         throw new WebServiceException("An error occurred while processing the request", e);
+
+//            return "Error creating order: " + e.getMessage();
         }
     }
 

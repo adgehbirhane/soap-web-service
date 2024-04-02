@@ -34,7 +34,7 @@ public class CustomerService {
         try {
             Connection connection = PGConnection.getConnection();
             CustomerRepo customerRepo = new CustomerRepo(connection);
-            return customerRepo.findAll();
+            return customerRepo.findAll(); 
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
