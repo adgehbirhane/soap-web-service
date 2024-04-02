@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
- 
+
 public class OrderRepo {
 
     private Connection connection;
@@ -74,21 +74,15 @@ public class OrderRepo {
         return null; // Order with the given ID not found
     }
 
-    // Method to update an order by ID
-    public void updateById(Order order) throws SQLException {
-        String query = "UPDATE \"public\".\"Order\" SET customer_id = ?, product_id = ?, quantity = ?, order_date = ?, status = ? WHERE id = ?";
+    public void updateStatus(Order order) throws SQLException {
+        String query = "UPDATE \"public\".\"Order\" SET status = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, order.getCustomer_id());
-            statement.setInt(2, order.getProduct_id());
-            statement.setInt(3, order.getQuantity());
-            statement.setTimestamp(4, order.getOrder_date());
-            statement.setString(5, order.getStatus());
-            statement.setInt(6, order.getId());
+            statement.setString(1, order.getStatus());
+            statement.setInt(2, order.getId());
             statement.executeUpdate();
         }
     }
 
-    // Method to delete an order by ID
     public void deleteById(int orderId) throws SQLException {
         String query = "DELETE FROM \"public\".\"Order\" WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -97,4 +91,3 @@ public class OrderRepo {
         }
     }
 }
-
