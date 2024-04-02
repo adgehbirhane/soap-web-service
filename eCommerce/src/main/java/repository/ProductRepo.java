@@ -16,35 +16,28 @@ public class ProductRepo {
 
     private Connection connection;
 
-    // Constructor
     public ProductRepo(Connection connection) {
         this.connection = connection;
     }
 
-    // Method to create a new product
-    public int create(Product product) throws SQLException {
-        String query = "INSERT INTO \"public\".\"Product\" (name, description, category_id, price) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, product.getName());
-            statement.setString(2, product.getDescription());
-            statement.setInt(3, product.getCategory_id());
-            statement.setDouble(4, product.getPrice());
-            int affectedRows = statement.executeUpdate();
+    public String create(Product product) throws SQLException {
+        String insertQuery = "INSERT INTO \"public\".\"Product\" (name, description, category_id, price) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+
+            insertStatement.setString(1, product.getName());
+            insertStatement.setString(2, product.getDescription());
+            insertStatement.setInt(3, product.getCategory_id());
+            insertStatement.setDouble(4, product.getPrice());
+
+            int affectedRows = insertStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating product failed, no rows affected.");
             }
-    
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                  return generatedKeys.getInt(1);
-                } else {
-                  return 0;
-                }
-            }
-        }
-    }
 
-    // Method to retrieve all products
+           return "Product registered Succeed";
+        }
+    } 
+
     public List<Product> findAll() throws SQLException {
         List<Product> products = new ArrayList<>();
         String query = "SELECT * FROM \"public\".\"Product\"";
@@ -62,7 +55,6 @@ public class ProductRepo {
         return products;
     }
 
-    // Method to retrieve a product by ID
     public Product findById(int productId) throws SQLException {
         String query = "SELECT * FROM \"public\".\"Product\" WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -79,10 +71,9 @@ public class ProductRepo {
                 }
             }
         }
-        return null; // Product with the given ID not found
+        return null;
     }
 
-    // Method to update a product by ID
     public boolean updateById(Product product) throws SQLException {
         String query = "UPDATE \"public\".\"Product\" SET name = ?, description = ?, category_id = ?, price = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -96,7 +87,6 @@ public class ProductRepo {
         }
     }
 
-    // Method to delete a product by ID
     public void deleteById(int productId) throws SQLException {
         String query = "DELETE FROM \"public\".\"Product\" WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {

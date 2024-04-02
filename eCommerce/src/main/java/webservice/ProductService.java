@@ -8,34 +8,36 @@ import jakarta.jws.*;
 import java.sql.*;
 import models.*;
 import DBConnection.PGConnection;
+import jakarta.xml.ws.WebServiceException;
 import java.util.List;
 import repository.*;
+import validator.ProductValidator;
 
 @WebService(serviceName = "product")
 public class ProductService {
 
     @WebMethod(operationName = "createOne")
-    public Product createProduct(@WebParam(name = "name") String name,
+    public String createProduct(@WebParam(name = "name") String name,
             @WebParam(name = "description") String description,
             @WebParam(name = "category_id") int category_id,
             @WebParam(name = "price") double price) {
         try {
             Connection connection = PGConnection.getConnection();
-            ProductRepo productRepo = new ProductRepo(connection);
-            Product product = new Product();
-            product.setName(name);
-            product.setDescription(description);
-            product.setCategory_id(category_id);
-            product.setPrice(price);
-            int newProductId = productRepo.create(product);
-            if (newProductId == 0) {
-                throw new SQLException("Creating product failed");
+            ProductValidator proValidator = new ProductValidator(connection);
+
+            if (proValidator.isValidProductInfo(category_id, price, name, description)) {
+                ProductRepo productRepo = new ProductRepo(connection);
+                Product product = new Product();
+                product.setName(name);
+                product.setDescription(description);
+                product.setCategory_id(category_id);
+                product.setPrice(price);
+                return  productRepo.create(product); 
             } else {
-                return productRepo.findById(newProductId);
+                throw new WebServiceException("An error occurred while processing the request.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException( e.getMessage());
         }
     }
 
@@ -46,7 +48,6 @@ public class ProductService {
             ProductRepo productRepo = new ProductRepo(connection);
             return productRepo.findAll();
         } catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -55,11 +56,16 @@ public class ProductService {
     public Product findById(@WebParam(name = "id") int id) {
         try {
             Connection connection = PGConnection.getConnection();
-            ProductRepo productRepo = new ProductRepo(connection);
-            return productRepo.findById(id);
+
+            ProductValidator proValidator = new ProductValidator(connection);
+            if (proValidator.isValidId(id)) {
+                ProductRepo productRepo = new ProductRepo(connection);
+                return productRepo.findById(id);
+            } else {
+                throw new WebServiceException("An error occurred while processing the request");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException("An error occurred while processing the request");
         }
     }
 
@@ -71,24 +77,28 @@ public class ProductService {
             @WebParam(name = "price") double price) {
         try {
             Connection connection = PGConnection.getConnection();
-            ProductRepo productRepo = new ProductRepo(connection);
-            Product product = new Product();
-            product.setId(id);
-            product.setName(name);
-            product.setDescription(description);
-            product.setCategory_id(category_id);
-            product.setPrice(price);
+            ProductValidator proValidator = new ProductValidator(connection);
+            if (proValidator.isValidId(id) && proValidator.isValidProductInfo(category_id, price, name, description)) {
+                ProductRepo productRepo = new ProductRepo(connection);
+                Product product = new Product();
+                product.setId(id);
+                product.setName(name);
+                product.setDescription(description);
+                product.setCategory_id(category_id);
+                product.setPrice(price);
 
-            boolean success = productRepo.updateById(product);
+                boolean success = productRepo.updateById(product);
 
-            if (success) {
-                return productRepo.findById(id);
+                if (success) {
+                    return productRepo.findById(id);
+                } else {
+                    throw new SQLException("Updating product failed");
+                }
             } else {
-                throw new SQLException("Updating product failed");
+                throw new WebServiceException("An error occurred while processing the request");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException("An error occurred while processing the request");
         }
     }
 
@@ -96,12 +106,16 @@ public class ProductService {
     public String deleteById(@WebParam(name = "id") int id) {
         try {
             Connection connection = PGConnection.getConnection();
-            ProductRepo productRepo = new ProductRepo(connection);
-            productRepo.deleteById(id);
-            return "Product deleted successfully!";
+            ProductValidator proValidator = new ProductValidator(connection);
+            if (proValidator.isValidId(id)) {
+                ProductRepo productRepo = new ProductRepo(connection);
+                productRepo.deleteById(id);
+                return "Product deleted successfully!";
+            } else {
+                throw new WebServiceException("An error occurred while processing the request");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new WebServiceException("An error occurred while processing the request");
         }
     }
 }
