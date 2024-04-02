@@ -23,7 +23,7 @@ public class CategoryValidator {
         this.connection = connection;
     }
 
-    public boolean isValidCategory(String name, String description) {
+    public boolean isValidCategoryInfo(String name, String description) {
         if (name == null || name.length() == 0) {
             throw new WebServiceException("Category name is required!");
         } else if (description == null || description.length() == 0) {
@@ -43,8 +43,12 @@ public class CategoryValidator {
                 int rowCount = 0;
                 while (resultSet.next()) {
                     rowCount++;
+                } 
+                if(rowCount>= 1){
+                   return true;
+                }else{
+                    throw new WebServiceException("The provided id is not found");
                 }
-                return rowCount >= 1;
             }
         } catch (SQLException e) {
             throw new WebServiceException("An error occurred while processing the request", e);

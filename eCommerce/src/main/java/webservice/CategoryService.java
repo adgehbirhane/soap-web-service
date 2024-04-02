@@ -23,7 +23,7 @@ public class CategoryService {
             Connection connection = PGConnection.getConnection();
             CategoryValidator catValidator = new CategoryValidator(connection);
 
-            if (catValidator.isValidCategory(name, description)) {
+            if (catValidator.isValidCategoryInfo(name, description)) {
                 CategoryRepo categoryRepo = new CategoryRepo(connection);
                 Category category = new Category();
                 category.setName(name);
@@ -58,7 +58,7 @@ public class CategoryService {
                 CategoryRepo categoryRepo = new CategoryRepo(connection);
                 return categoryRepo.findById(id);
             } else {
-                throw new WebServiceException("The provided id is not found");
+                throw new WebServiceException("An error occurred while processing the request");
             }
         } catch (SQLException e) {
             throw new WebServiceException("An error occurred while processing the request", e);
@@ -66,12 +66,14 @@ public class CategoryService {
     }
 
     @WebMethod(operationName = "updateOne")
-    public Category updateCategory(@WebParam(name = "id") int id, @WebParam(name = "name") String name,
+    public Category updateCategory(
+            @WebParam(name = "id") int id, 
+            @WebParam(name = "name") String name,
             @WebParam(name = "description") String description) {
         try {
             Connection connection = PGConnection.getConnection();
             CategoryValidator catValidator = new CategoryValidator(connection);
-            if (catValidator.isValidId(id) && catValidator.isValidCategory(name, description)) {
+            if (catValidator.isValidId(id) && catValidator.isValidCategoryInfo(name, description)) {
                 CategoryRepo categoryRepo = new CategoryRepo(connection);
                 Category category = new Category();
                 category.setId(id);
@@ -97,7 +99,7 @@ public class CategoryService {
                 categoryRepo.deleteById(id);
                 return "Category deleted successfully!";
             } else {
-                throw new WebServiceException("An error occurred while processing the request");
+                throw new WebServiceException("The provided id is not found");
             }
 
         } catch (SQLException e) {
