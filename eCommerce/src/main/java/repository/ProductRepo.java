@@ -21,7 +21,7 @@ public class ProductRepo {
     }
 
     public String create(Product product) throws SQLException {
-        String insertQuery = "INSERT INTO \"public\".\"Product\" (name, description, category_id, price) VALUES (?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO \"public\".\"product\" (name, description, category_id, price) VALUES (?, ?, ?, ?)";
         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
 
             insertStatement.setString(1, product.getName());
@@ -40,7 +40,7 @@ public class ProductRepo {
 
     public List<Product> findAll() throws SQLException {
         List<Product> products = new ArrayList<>();
-        String query = "SELECT * FROM \"public\".\"Product\"";
+        String query = "SELECT * FROM \"public\".\"product\"";
         try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Product product = new Product();
@@ -56,7 +56,7 @@ public class ProductRepo {
     }
 
     public Product findById(int productId) throws SQLException {
-        String query = "SELECT * FROM \"public\".\"Product\" WHERE id = ?";
+        String query = "SELECT * FROM \"public\".\"product\" WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, productId);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -75,7 +75,7 @@ public class ProductRepo {
     }
 
     public boolean updateById(Product product) throws SQLException {
-        String query = "UPDATE \"public\".\"Product\" SET name = ?, description = ?, category_id = ?, price = ? WHERE id = ?";
+        String query = "UPDATE \"public\".\"product\" SET name = ?, description = ?, category_id = ?, price = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, product.getName());
             statement.setString(2, product.getDescription());
@@ -88,7 +88,7 @@ public class ProductRepo {
     }
 
     public void deleteById(int productId) throws SQLException {
-        String query = "DELETE FROM \"public\".\"Product\" WHERE id = ?";
+        String query = "DELETE FROM \"public\".\"product\" WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, productId);
             statement.executeUpdate();

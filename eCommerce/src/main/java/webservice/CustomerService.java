@@ -41,8 +41,12 @@ public class CustomerService {
         try {
             Connection connection = PGConnection.getConnection();
             CustomerRepo customerRepo = new CustomerRepo(connection);
-            return customerRepo.findAll();
-        } catch (SQLException e) { 
+            List<Customer> customers = customerRepo.findAll();
+            if (customers.isEmpty()) {
+                throw new WebServiceException("No users found in the database");
+            }
+            return customers;
+        } catch (SQLException e) {
             return null;
         }
     }

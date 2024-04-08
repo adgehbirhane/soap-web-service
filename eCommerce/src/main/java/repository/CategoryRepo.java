@@ -23,7 +23,7 @@ public class CategoryRepo {
 
     // Method to create a new category
     public void create(Category category) throws SQLException {
-        String query = "INSERT INTO \"public\".\"Category\" (name, description) VALUES (?, ?)";
+        String query = "INSERT INTO \"public\".\"category\" (name, description) VALUES (?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, category.getName());
             statement.setString(2, category.getDescription());
@@ -34,7 +34,7 @@ public class CategoryRepo {
     // Method to retrieve all categories
     public List<Category> findAll() throws SQLException {
         List<Category> categories = new ArrayList<>();
-        String query = "SELECT * FROM \"public\".\"Category\"";
+        String query = "SELECT * FROM \"public\".\"category\"";
         try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Category category = new Category();
@@ -49,7 +49,7 @@ public class CategoryRepo {
 
     // Method to retrieve a category by ID
     public Category findById(int categoryId) throws SQLException {
-        String query = "SELECT * FROM \"public\".\"Category\" WHERE id = ?";
+        String query = "SELECT * FROM \"public\".\"category\" WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, categoryId);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -67,7 +67,7 @@ public class CategoryRepo {
 
     // Method to update a category by ID
     public void updateById(Category category) throws SQLException {
-        String query = "UPDATE \"public\".\"Category\" SET name = ?, description = ? WHERE id = ?";
+        String query = "UPDATE \"public\".\"category\" SET name = ?, description = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, category.getName());
             statement.setString(2, category.getDescription());
@@ -78,7 +78,7 @@ public class CategoryRepo {
 
     // Method to delete a category by ID
     public void deleteById(int categoryId) throws SQLException {
-        String query = "DELETE FROM \"public\".\"Category\" WHERE id = ?";
+        String query = "DELETE FROM \"public\".\"category\" WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, categoryId);
             statement.executeUpdate();

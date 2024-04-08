@@ -3,7 +3,7 @@ package DBConnection;
 import java.sql.*; 
 
 public class PGConnection {
-    private static final String URL = "jdbc:postgresql://localhost:5432/ecommerce";
+    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USER = "postgres";
     private static final String PASSWORD = "root";
 

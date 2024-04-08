@@ -36,7 +36,7 @@ public class CategoryValidator {
         if (id <= 0) {
             throw new WebServiceException("Category id must be an integer greater than zero!");
         }
-        String query = "SELECT * FROM \"public\".\"Category\" WHERE id = ?";
+        String query = "SELECT * FROM \"public\".\"category\" WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {

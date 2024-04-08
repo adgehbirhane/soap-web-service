@@ -53,7 +53,7 @@ public class CustomerValidator {
         if (id <= 0) {
             throw new WebServiceException("Customer id must be an integer greater than zero!");
         }
-        String query = "SELECT * FROM \"public\".\"Customer\" WHERE id = ?";
+        String query = "SELECT * FROM \"public\".\"customer\" WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
