@@ -75,7 +75,7 @@ public class ProductValidator {
                 if (rowCount >= 1) {
                     return true;
                 } else {
-                    throw new WebServiceException("The provided id is not found");
+                    throw new WebServiceException("The provided product id is not found");
                 }
             }
         } catch (SQLException e) {

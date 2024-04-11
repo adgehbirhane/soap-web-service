@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package repository;
- 
+
 import models.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,11 +22,12 @@ public class CustomerRepo {
 
     // Method to create a new customer
     public void create(Customer customer) throws SQLException {
-        String query = "INSERT INTO \"public\".\"customer\" (name, email, phone) VALUES (?, ?, ?)";
+        String query = "INSERT INTO \"public\".\"customer\" (name, email, phone, password) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, customer.getName());
             statement.setString(2, customer.getEmail());
             statement.setString(3, customer.getPhone());
+            statement.setString(4, customer.getPassword());
             statement.executeUpdate();
         }
     }

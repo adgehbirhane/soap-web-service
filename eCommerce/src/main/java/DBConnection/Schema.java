@@ -19,10 +19,12 @@ public class Schema {
 // CREATE TABLE IF NOT EXISTS customer (
 //    id SERIAL PRIMARY KEY,
 //    name VARCHAR(255) NOT NULL,
-//    email VARCHAR(255),
-//    phone VARCHAR(20)
+//    email VARCHAR(255) NOT NULL UNIQUE,
+//    phone VARCHAR(20),
+//    password VARCHAR(255),
+//    token  VARCHAR(255)
 // );
-
+    
 // CREATE TABLE IF NOT EXISTS product (
 //    id SERIAL PRIMARY KEY,
 //    name VARCHAR(255) NOT NULL,
